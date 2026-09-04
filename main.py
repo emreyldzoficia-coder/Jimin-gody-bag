@@ -25,7 +25,7 @@ def run_dummy_server():
 # Telegram Ayarları (Gizli bilgiler Render ortam değişkenlerinden çekilir)
 TELEGRAM_BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
-PROXY_URL = "https://dichvu321.com/proxy.php?stream=all&live=4000"
+PROXY_URL = "https://dichvu321.com/proxy.php?stream=all&live=5000"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36",
