@@ -22,10 +22,10 @@ def run_dummy_server():
     server = HTTPServer(("0.0.0.0", port), SimpleHTTPRequestHandler)
     server.serve_forever()
 
-# Telegram Ayarları (Gizli bilgiler Render ortam değişkenlerinden çekilir)
+# Telegram Ayarları (18 Bin Canlı Yayın Taraması)
 TELEGRAM_BOT_TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
-PROXY_URL = "https://dichvu321.com/proxy.php?stream=all&live=5000"
+PROXY_URL = "https://dichvu321.com/proxy.php?stream=all&live=18000"
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36",
@@ -171,6 +171,11 @@ async def listen_live_feed():
                         if not is_goody:
                             continue
 
+                        # Sadece Level 1 Filtresi
+                        box_level = find_box_level(payload, envelope_info)
+                        if box_level != 1:
+                            continue
+
                         # Gerçek Toplam Elmas Sayısı
                         coins = int(
                             envelope_info.get("totalDiamondCount")
@@ -198,9 +203,6 @@ async def listen_live_feed():
                             continue
 
                         LOCAL_CACHE.add(clean_username)
-
-                        # Kutu Seviyesi
-                        box_level = find_box_level(payload, envelope_info)
 
                         # Dağıtılan Kişi Sayısı
                         recipients, _ = get_chest_recipients(payload)
@@ -234,7 +236,6 @@ async def listen_live_feed():
 
                         live_link = f"https://www.tiktok.com/@{clean_username}/live"
 
-                        # Görev Satırı Olmayan Mesaj Formatı
                         mesaj_satirlari = [
                             f"🎁 GOODY BAG 🏅 Lvl {box_level}",
                             f"👤 YAYINCI: @{clean_username}",
@@ -247,7 +248,7 @@ async def listen_live_feed():
                         mesaj = "\n".join(mesaj_satirlari)
 
                         asyncio.create_task(send_telegram(mesaj))
-                        print(f"GOODY: @{clean_username} | Elmas: {coins}")
+                        print(f"GOODY Lvl 1: @{clean_username} | Elmas: {coins}")
 
         except Exception as e:
             print(f"Bağlantı hatası: {e}")
