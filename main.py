@@ -51,12 +51,17 @@ FETCH_HEADERS = {
 
 LOCAL_KEYS = set()
 
-# Render Web Service port kontrolü için HTTP sunucu
+# Render Web Service ve UptimeRobot kontrolü için HTTP sunucu
 class HealthHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.end_headers()
         self.wfile.write(b"OK")
+
+    def do_HEAD(self):
+        self.send_response(200)
+        self.end_headers()
+
     def log_message(self, format, *args):
         pass
 
